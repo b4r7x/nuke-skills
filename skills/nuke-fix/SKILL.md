@@ -1,8 +1,8 @@
 ---
 name: nuke-fix
 description: >
-  Use when executing a fix spec produced by nuke-audit, nuke-review, or
-  nuke-verify — "nuke fix", "execute the fix spec", "run the audit fixes".
+  Use when executing a fix spec produced by nuke-audit, nuke-review, nuke-spec,
+  or nuke-verify — "nuke fix", "execute the fix spec", "run the audit fixes".
 disable-model-invocation: true
 metadata:
   author: b4r7x
@@ -19,7 +19,7 @@ Core principle — asymmetric verification: weak generation + strong verificatio
 ## Arguments
 
 `[mode]` — `light` | `full` | `plan`. If omitted, use the `mode:` recorded in the spec header; if the spec has none, default to `light`. `plan` runs preflight, prints the plan block, and STOPS — nothing is written.
-`<spec-path>` — path to a `fix-spec.md`. If a `fix-progress.md` exists next to it, resume from the first incomplete phase instead of starting over.
+`<spec-path>` — path to a fix spec (`fix-spec.md`, or `spec.md` from nuke-spec). If a `fix-progress.md` exists next to it, resume from the first incomplete phase instead of starting over.
 `--yes` — skip the preflight confirmation gate.
 
 ## Modes
@@ -54,7 +54,7 @@ Read references/preflight.md and run its plan-then-apply gate:
 1. Read the spec fully. It is self-contained: executor context (quality bar + tier assignments), per-path-prefix Gates table, file-type → skill map, dependency-ordered phases, batches, tasks, coverage map including `U-###` unverified entries.
 2. Run every row of the Gates table once for a **baseline**. A failing baseline gate becomes the first task of the run — never validate around a broken baseline, and never write off later failures as "pre-existing". An area with no gates falls under the gateless-repo rule in references/stack-adapters.md: the spec's first phase bootstraps a minimal gate, or its header declares `gates: NONE — validation is review-only`. Never silently validate against nothing.
 3. Print the plan block (scope, mode, phases × batches, tier assignments, cost estimate) and wait for confirmation. `plan` → stop here. `--yes` → skip confirmation.
-4. On confirmation: write `plan.md` next to the spec (the preflight record — references/preflight.md), then create or update `fix-progress.md` beside it.
+4. On confirmation: write `fix-plan.md` next to the spec (the preflight record — references/preflight.md; named `fix-plan.md`, never `plan.md`, so a spec run's own plan.md survives), then create or update `fix-progress.md` beside it.
 
 ### Progress format (`fix-progress.md`)
 
@@ -93,13 +93,14 @@ After the last phase:
 
 1. Every Gates-table row — capture outputs verbatim.
 2. Final sweep over the complete changed-file set, per the mode table above.
-   - Completeness checklist: every T-### done, every F-### resolved per the coverage map, every U-### fixed or closed-with-reason, no `.bak` files, no debug leftovers, no commented-out code.
+   - Completeness checklist: every T-### done, every coverage-map ID (F-###/REQ-###) resolved, every U-### fixed or closed-with-reason, no `.bak` files, no debug leftovers, no commented-out code.
 3. Anything found → one more fix loop, then re-sweep.
 
 ## Report
 
 - Mode, phases × cycles table, issue counts fixed per phase, U-### dispositions
 - Gate outputs (verbatim — no summaries in place of evidence)
+- Append the run's calibration line to `.nuke/calibration.log` (format in references/preflight.md)
 - Verdict: **"CLEAN — every task validated, all gates pass, working tree ready for review (nothing committed)"** — or the honest list of remaining blockers and exactly where the run stopped
 
 ## Orchestration notes

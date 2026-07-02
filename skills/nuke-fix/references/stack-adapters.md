@@ -121,4 +121,4 @@ Built ONCE at preflight (preflight.md step 2) by the orchestrator or one clerk a
 | .py (38) | — | quality bar carries the lens |
 
 4. A matched React-class skill is mandatory for the quality and behavioral charters on `.tsx`/`.jsx` files — run its review checklist verbatim when it ships one. An extension with no match records `quality bar carries the lens` — the lens text plus the Phase 1 quality bar becomes the charter, and Phase 1 deepens research for that territory instead.
-5. The map drives MANDATORY loading in every downstream prompt: auditors (nuke-audit, nuke-review) and implementers (nuke-fix) whose files match a mapped extension load the mapped skills before working.
+5. The map drives MANDATORY loading in every downstream prompt: auditors (nuke-audit, nuke-review), fix/verify/debug implementers, and nuke-test writers whose files match a mapped extension load the mapped skills before working.

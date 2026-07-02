@@ -1,6 +1,6 @@
 # Model Tiers
 
-Loaded during preflight (Phase 0) by all four skills to assign a tier to every role in the plan block; the orchestrator re-reads the relevant table before composing each wave.
+Loaded during preflight (Phase 0) by every run skill to assign a tier to every role in the plan block; the orchestrator re-reads the relevant table before composing each wave. nuke-spec, nuke-debug, and nuke-test carry their role×tier tables in their own mode tables.
 
 ## Tier definitions
 
@@ -61,3 +61,5 @@ Protocol text names tiers, never model IDs. The mapping to concrete models happe
 ## Asymmetric verification
 
 Weak generation + strong verification + a fix loop = strong output. Producing a correct change is harder than checking one: a worker-tier implementer's mistakes are visible to a session-tier validator holding the acceptance criteria, because judging a claim against evidence is an easier task than producing the claim. The fix loop converts detection into quality — every validator-caught defect returns to a cheap implementer as an exact finding, so final quality is bounded by the strongest verifier, not the weakest generator. This is why validators always sit one tier above implementers, and why cutting the verification tier is the one economy this family never makes.
+
+Judgment-tier roles (skeptics, spec-architect, completeness checker, nuke-spec's designer, nuke-debug's adjudicator, reconcilers) load the nuke-think skill when installed.

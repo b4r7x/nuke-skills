@@ -1,6 +1,6 @@
 # Fix Spec Template
 
-Loaded by the spec-architect and completeness reviewer at spec-writing time (nuke-audit Phase 3, nuke-review Phase 3) and by nuke-fix preflight and the nuke-verify escalation path.
+Loaded by the spec-architect and completeness reviewer at spec-writing time (nuke-audit Phase 3, nuke-review Phase 3, nuke-spec Phase 3) and by nuke-fix preflight and the nuke-verify escalation path.
 
 ## Contract
 
@@ -14,7 +14,7 @@ A fix spec is self-contained: a fresh agent session with zero prior knowledge mu
    - a **quoted line** that must exist (or no longer exist) at a stated file:line.
    "Code is cleaner", "duplication removed", "follows conventions" are NOT acceptance criteria. The completeness reviewer rejects any task whose Accept requires judgment to verify; a nuke-fix implementer that meets one anyway escalates instead of guessing.
 2. **`Gates:` is a per-path-prefix table** (built from recon; protocol in stack-adapters.md). Single-stack repos get one row with prefix `./`. Validators run only the rows matching their batch's files. An area with no gates → either the first phase bootstraps a minimal gate, or the header declares `gates: NONE — validation is review-only`; never silently validate against nothing.
-3. **Phase ordering** (later phases depend on the file layout earlier phases produce): structural moves/renames → DRY extractions & architecture changes → local fixes (slop, types, errors, simplicity, dead code) → tests → docs/cleanup.
+3. **Phase ordering** (later phases depend on the file layout earlier phases produce): structural moves/renames → DRY extractions & architecture changes → local fixes (slop, types, errors, simplicity, dead code) → tests → docs/cleanup. (Build specs from nuke-spec instead order: contracts/scaffolding → core behavior → integration → tests → docs.)
 4. **Batches within a phase touch disjoint files** — parallel-safe by construction. Two tasks sharing a file go in the same batch.
 5. **Coverage map is total.** Every confirmed F-### maps to ≥1 task. Every U-### (unverified low/info) is routed to the phase whose tasks touch its files, as a validator re-judgment entry — not a task. The phase validator judges it for free while re-auditing: fix if real, close with a written reason if not. A U-### touching no phase's files gets its own entry in the last phase.
 6. **Tier assignments and the file-type → skill map are recorded in the executor context**, resolved for this spec's mode from model-tiers.md, so the spec stays self-contained without the skill installed.
@@ -60,8 +60,8 @@ For each phase, in order:
    full: 5 — then stop and report honestly).
 4. Only then move to the next phase.
 After the last phase: run all gate rows, then a final sweep over the complete
-changed-file set. Completeness = every T-### done, every F-### resolved, every U-###
-fixed or closed with reason, no `.bak` files, no debug leftovers.
+changed-file set. Completeness = every T-### done, every coverage-map ID (F-###/REQ-###)
+resolved, every U-### fixed or closed with reason, no `.bak` files, no debug leftovers.
 
 ## Phase 1 — <name> (<why this is first>)
 ### Batch 1.A — files: services/api/retry.py, services/api/poll.py

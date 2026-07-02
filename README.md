@@ -1,6 +1,6 @@
 # nuke-skills
 
-Four agent skills that audit, review, verify, and fix codebases using waves of subagents. The design bet: a cheap model following a strict protocol — embedded checklists, a forced finding schema, skeptic passes, validators one tier above implementers — beats an expensive model working from intuition. The protocol carries the quality; the model mostly has to follow instructions.
+Seven agent skills that spec, audit, review, verify, fix, debug, and test codebases using waves of subagents, plus an eighth that raises the reasoning quality of whichever model runs the others. The design bet: a cheap model following a strict protocol — embedded checklists, a forced finding schema, skeptic passes, validators one tier above implementers — beats an expensive model working from intuition. The protocol carries the quality; the model mostly has to follow instructions.
 
 ## Install
 
@@ -12,7 +12,7 @@ That installs the skills into whichever coding agents you have set up (Claude Co
 
 Claude Code can also take the repo as a plugin marketplace: `/plugin marketplace add b4r7x/nuke-skills`, then `/plugin install nuke@nuke-skills`.
 
-## The four skills
+## The eight skills
 
 | Skill | What it does | Writes code? | Typical trigger |
 |---|---|---|---|
@@ -20,10 +20,14 @@ Claude Code can also take the repo as a plugin marketplace: `/plugin marketplace
 | nuke-review | One-to-two-wave review of a diff, branch, or PR, plus its blast radius (files importing or imported by the changes). Produces a verdict-first report. | no | "nuke review", "review this branch" |
 | nuke-verify | Checks an implementation against its stated intent, then fixes it until clean. | yes | "verify what the agent built" |
 | nuke-fix | Executes a fix spec phase by phase with implementer and validator waves. | yes | `nuke fix .nuke/<run>/fix-spec.md` |
+| nuke-spec | Compiles a feature request into a build spec: numbered requirements, recorded design decisions, mechanically checkable acceptance criteria. | no | "nuke spec", "spec this feature" |
+| nuke-debug | Root-causes one bug through reproduce → localize → fix → verify. No fix without a failing reproduction. | yes | "nuke debug", "find why this fails" |
+| nuke-test | Maps behaviors from the public interface, writes tests, then proves them by mutating the source and watching them fail. | yes | "nuke test", "cover this with tests" |
+| nuke-think | Maxes the platform's thinking dials and runs a six-step reasoning discipline; a stance-assigned panel for the hardest calls. | no | "nuke think", auto-loaded by judgment roles |
 
 Every reported finding must carry file:line references, at least one verbatim quoted line per site, a numbered trace proving the claim, and a refutation attempt: the auditor writes the strongest case that the finding is not real, and reports it only when that case fails to convince them. A finding missing any field is discarded, not reported. This schema is most of why cheap auditors stay precise.
 
-Audit and review only write inside their own run directory. Verify and fix edit source, but nothing ever touches git: no adds, no commits, no stashes. The working tree is left for you to review.
+Audit, review, and spec never edit source; they write only under `.nuke/` — their run directory plus the shared repo map and calibration log. Verify, fix, debug, and test edit source, but nothing ever touches git: no adds, no commits, no stashes. The working tree is left for you to review.
 
 The protocols are stack-neutral. A shared adapter table covers JS/TS, Python, Go, Rust, JVM, C#, Ruby, and PHP (per-language gates, type-escape vocabulary, test idioms), plus rules for mixed monorepos and for repos with no test or lint gates at all.
 
@@ -36,6 +40,9 @@ nuke audit full --yes             everything, no confirmation gate, expensive
 nuke review branch                review this branch against main
 nuke verify intent: docs/spec.md  verify the working tree against a spec
 nuke fix .nuke/<run>/fix-spec.md  execute an audit's fix spec
+nuke spec add retry to the fetch layer    compile a feature request into a build spec
+nuke debug "save button clears the form"  root-cause and fix one bug
+nuke test src/lib/                        write tests, then prove them by mutation
 ```
 
 Runs leave their artifacts under `.nuke/`. The skills never edit your `.gitignore`, so add `.nuke/` yourself if the clutter bothers you.
@@ -55,6 +62,10 @@ Review, verify, and fix are built from the same pieces: the same four charters, 
 - audit → fix: the audit ends with a `fix-spec.md`. Run nuke-fix on it in a fresh session. The spec is self-contained, so any agent can execute it.
 - review → fix: when a review confirms more than 5 findings, or you pass `--spec`, it writes a mini fix spec with the same handoff.
 - cheap implementer → verify: let an inexpensive model implement a task, then run nuke-verify against the original spec or task text. It maps every requirement to evidence, hunts regressions the implementation introduced, and repairs what it finds.
+- spec → fix → verify: for new features. nuke-spec compiles the request into the same executable spec format an audit emits; nuke-fix builds it; nuke-verify takes the spec as intent and confirms the build matches.
+- test → debug: a new behavior test that fails against the current code is reported as a bug with a nuke-debug recommendation, never weakened until it passes.
+- debug → audit: when the fix keeps widening or the closing sweep finds the same bug class spread across the codebase, nuke-debug recommends nuke-audit on the area instead of forcing the patch.
+- judgment roles → think: skeptics, spec architects, completeness checkers, and reconcilers load nuke-think automatically when it is installed, so the reasoning-heavy roles inside the other skills get the discipline for free.
 
 ## Modes and cost
 
@@ -72,7 +83,7 @@ Nothing spawns blind. Every skill first resolves its scope, composes the wave, p
 
 Be warned about full mode: the 65–133 agent figures come from real runs that burned 5–9M input tokens on the strongest model. It exists for code where cost genuinely does not matter.
 
-nuke-verify and nuke-fix have light/full instead: light caps the fix loop at 3 cycles per phase, full at 5, and full raises the tiers.
+The other run skills — verify, fix, spec, debug, test — have light/full instead. Light keeps waves lean; full raises the tiers and, where a fix loop exists, its cycle cap (verify, fix, and debug go from 3 to 5; test keeps 2 write→mutate cycles in both).
 
 ## Model tiers
 

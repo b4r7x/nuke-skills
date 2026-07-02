@@ -1,14 +1,14 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "nuke-skills",
-  "description": "Convergent multi-agent quality protocols: deep audits, diff reviews, implementation verification, and phased fix-spec execution",
+  "description": "Convergent multi-agent quality protocols: deep audits, diff reviews, implementation verification, phased fix-spec execution, feature spec compilation, root-cause debugging, mutation-proven tests, and a deep-reasoning discipline",
   "owner": {
     "name": "b4r7x"
   },
   "plugins": [
     {
       "name": "nuke",
-      "description": "Multi-agent quality skills — nuke-audit (convergent codebase audit), nuke-review (diff/PR review), nuke-verify (implementation verification with fix loop), nuke-fix (phased fix-spec execution)",
+      "description": "Multi-agent quality skills — nuke-audit (convergent codebase audit), nuke-review (diff/PR review), nuke-verify (implementation verification with fix loop), nuke-fix (phased fix-spec execution), nuke-spec (feature request → build spec), nuke-debug (root-cause bug fixing), nuke-test (behavior tests proven by mutation), nuke-think (deep-reasoning discipline for judgment roles and hard calls)",
       "version": "3.0.0",
       "author": {
         "name": "b4r7x"
@@ -20,7 +20,11 @@
         "./skills/nuke-audit",
         "./skills/nuke-review",
         "./skills/nuke-verify",
-        "./skills/nuke-fix"
+        "./skills/nuke-fix",
+        "./skills/nuke-spec",
+        "./skills/nuke-debug",
+        "./skills/nuke-test",
+        "./skills/nuke-think"
       ]
     }
   ]

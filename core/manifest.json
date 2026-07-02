@@ -7,6 +7,14 @@
     "nuke-verify": { "entrypoint": "nuke-verify.md",
       "references": ["lens-catalog.md","fix-spec-template.md","stack-adapters.md","model-tiers.md","preflight.md"] },
     "nuke-fix":    { "entrypoint": "nuke-fix.md",
-      "references": ["fix-spec-template.md","stack-adapters.md","model-tiers.md","preflight.md"] }
+      "references": ["fix-spec-template.md","stack-adapters.md","model-tiers.md","preflight.md"] },
+    "nuke-spec":   { "entrypoint": "nuke-spec.md",
+      "references": ["fix-spec-template.md","stack-adapters.md","model-tiers.md","preflight.md"] },
+    "nuke-debug":  { "entrypoint": "nuke-debug.md",
+      "references": ["stack-adapters.md","model-tiers.md","preflight.md"] },
+    "nuke-test":   { "entrypoint": "nuke-test.md",
+      "references": ["stack-adapters.md","model-tiers.md","preflight.md"] },
+    "nuke-think":  { "entrypoint": "nuke-think.md",
+      "references": [] }
   }
 }

@@ -79,19 +79,26 @@ for (const [name, { entrypoint, references }] of skills) {
 rmSync(skillsDir, { recursive: true, force: true });
 
 for (const [name, { entrypoint, references }] of skills) {
-  mkdirSync(join(skillsDir, name, 'references'), { recursive: true });
+  mkdirSync(join(skillsDir, name), { recursive: true });
   cpSync(join(entrypointsDir, entrypoint), join(skillsDir, name, 'SKILL.md'));
-  for (const ref of references) {
-    cpSync(join(referencesDir, ref), join(skillsDir, name, 'references', ref));
+  if (references.length > 0) {
+    mkdirSync(join(skillsDir, name, 'references'));
+    for (const ref of references) {
+      cpSync(join(referencesDir, ref), join(skillsDir, name, 'references', ref));
+    }
   }
 }
 
 console.log('skills/');
-skills.forEach(([name], i) => {
+skills.forEach(([name, { references }], i) => {
   const last = i === skills.length - 1;
   const branch = last ? '└──' : '├──';
   const pad = last ? '    ' : '│   ';
   console.log(`${branch} ${name}/`);
+  if (references.length === 0) {
+    console.log(`${pad}└── SKILL.md`);
+    return;
+  }
   console.log(`${pad}├── SKILL.md`);
   console.log(`${pad}└── references/`);
   const refs = readdirSync(join(skillsDir, name, 'references')).sort();

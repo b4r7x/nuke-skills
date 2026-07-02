@@ -117,7 +117,7 @@ Write verify.md and report to the user, verdict first:
 
 - **"VERIFIED — implementation matches intent, gates pass, working tree ready for review (nothing committed)"** — only when every requirement is `met`, every finding is fixed and revalidated, and every gate passes with captured output.
 - Otherwise the honest list: unmet requirements, open findings by severity, failing gates with verbatim output, cycles used, and exactly where the run stopped — plus the handoff line when a fix-spec was emitted.
-- Always: the requirement map (met/partial/unmet/contradicted), findings fixed per cycle, gate outputs, run stats (agents, cycles, scope size).
+- Always: the requirement map (met/partial/unmet/contradicted), findings fixed per cycle, gate outputs, run stats (agents, cycles, scope size). Append the run's calibration line to `.nuke/calibration.log` (format in references/preflight.md).
 
 ## Orchestration notes
 

@@ -42,7 +42,7 @@ These override convenience at every step:
 
 1. **Respect the mode and the tier table.** In micro/light never spawn one agent per lens or per finding; in full never shrink a wave to save tokens. Assign each role the tier references/model-tiers.md gives it — never silently upgrade a role's tier.
 2. **Main context stays thin.** The orchestrator never pulls source files into the main context. Agents receive file paths and artifact paths, not contents; agents return short structured results; everything durable lives in the artifact files.
-3. **Read-only on the codebase.** Writes happen only inside the run directory. Never run `git add`, `git commit`, or `git stash`; never edit source, config, or `.gitignore`. Leave `.nuke/` untracked.
+3. **Read-only on the codebase.** Writes happen only under `.nuke/` — the run directory plus the shared `.nuke/repo-map.md` and `.nuke/calibration.log`. Never run `git add`, `git commit`, or `git stash`; never edit source, config, or `.gitignore`. Leave `.nuke/` untracked.
 4. **Fresh run directory.** Never write into an existing audit run. Preflight allocates a new `run_dir` on confirmation; if the computed path already exists, append `-2`, `-3`, … until `mkdir` succeeds. Every artifact of this audit lives only there; pass that exact path in every agent prompt.
 5. **Evidence before existence.** A candidate missing any field of the schema in Phase 2 does not enter the ledger. A convergence claim without the rounds log backing it is false reporting.
 
@@ -90,6 +90,7 @@ Run both in parallel; both distill into `context.md`.
 2. Stack and manifests; the per-path-prefix gates table (test/typecheck/lint per prefix — protocol in `references/stack-adapters.md`); gateless areas flagged per the same file. The gates table goes verbatim into the fix spec later.
 3. The final scope file list (exclude vendored, generated, lockfiles). Area split: confirm the split recorded in plan.md; a changed split is a plan change. light: scope past ~80 files or ~40 KLOC → split into 2 areas by directory/feature. full: chunk files into areas of 5–15 by directory/feature (15–25 for very large scopes — grow chunk size before ever dropping a lens).
 4. The file-type → skill map from preflight, recorded for every agent.
+5. Write or refresh `.nuke/repo-map.md` (stamped with date + HEAD) from context.md's durable parts — stack, conventions, gates, architecture — never run-specific scope. Other nuke skills consume it as recon cache.
 
 **Quality-bar research** — one session-tier researcher (or the orchestrator where search tools are main-context-only); degrade gracefully; skip unavailable tools:
 
@@ -159,7 +160,7 @@ Report to the user and stop — do **not** start fixing:
 
 - Mode, rounds run, dry trail with threshold (e.g. `light · 4 rounds: 12 → 3 → 0 → 0 (medium+)`)
 - Counts: confirmed by severity, rejected, unverified + the scorecard
-- Artifact paths
+- Artifact paths. Append the run's calibration line to `.nuke/calibration.log` (format in references/preflight.md)
 - The handoff line: *"Run the **nuke-fix** skill on `.nuke/<run>/fix-spec.md` in a fresh session — or hand `fix-spec.md` to any AI agent; its Executor context + Execution protocol sections make it self-contained."*
 
 ## Orchestration notes

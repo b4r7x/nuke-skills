@@ -35,7 +35,7 @@ Tier definitions and platform mapping: references/model-tiers.md. Platforms with
 
 ## Mandates
 
-1. **Read-only on the codebase.** Writes happen only inside the run directory. Never run `git add`, `git commit`, or `git stash`. Leave `.nuke/` untracked.
+1. **Read-only on the codebase.** Writes happen only under `.nuke/` — the run directory plus the shared `.nuke/repo-map.md` and `.nuke/calibration.log`. Never run `git add`, `git commit`, or `git stash`. Leave `.nuke/` untracked.
 2. **Main context stays thin.** The orchestrator passes file paths and artifact paths, never file contents; agents return short structured results; durable detail lives in the artifacts.
 3. **Evidence before existence.** A finding missing any mandatory schema field (Phase 1) is invalid and must not be reported — not by an auditor, not in the final report.
 4. **Respect the tier table.** Never silently upgrade a role's tier to "be safe"; the protocol, not the model, carries the quality.
@@ -113,7 +113,7 @@ Wave 2 is 4 fresh worker auditors under the same protocol, prompts extended with
 1. **`review.md` — verdict first.** Opening line: `verdict: approve | approve-with-nits | request-changes` + one-sentence rationale. Then three sections: **Blockers** (critical/high), **Improvements** (medium), **Nits** (low/info) — every finding with file:line, the quoted source line, and the proposed fix. Close with the rejected-candidate count and run stats (waves, agents, scope size).
 2. **Mini fix-spec** — only when `--spec` was passed or >5 findings confirmed. Read references/fix-spec-template.md: single phase, tasks batched by disjoint files, every `Accept:` mechanically checkable (grep, test run, or quoted line). Carry the file-type → skill map and per-prefix gates from plan.md into the spec.
 3. Report to the user and stop — never start fixing:
-   - the verdict, counts by severity, artifact paths
+   - the verdict, counts by severity, artifact paths; append the run's calibration line to `.nuke/calibration.log` (format in references/preflight.md)
    - when a fix-spec exists: *"Run the **nuke-fix** skill on `.nuke/<run>/fix-spec.md` in a fresh session — or hand `fix-spec.md` to any agent; its executor context makes it self-contained."*
    - when systemic issues surfaced: *"These findings point past this diff — run **nuke-audit** on `<area>` for a convergent audit."*
 
