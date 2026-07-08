@@ -6,6 +6,8 @@ Loaded by the nuke-audit and nuke-review orchestrators when creating `findings.m
 
 Append-only, the single source of truth between rounds. Three sections: `## Confirmed` (F-###), `## Rejected` (R-###), `## Unverified (low/info)` (U-###). IDs are stable, sequential per prefix, never reused. Every entry carries the mandatory candidate-schema fields — an entry without a quoted line and an end-to-end trace never enters the ledger.
 
+Low/info candidates are ledger scope, even though they are outside the convergence threshold. Auditor prompts must ask for all severities. Do not write prompts or round notes that say low/info observations are intentionally not recorded, skipped because the threshold is medium+, or omitted to preserve dry convergence. If a low/info lead is too vague to satisfy the schema, log it as invalid/incomplete rather than counting it as recorded.
+
 Header:
 
 ```markdown
@@ -80,6 +82,8 @@ The header carries a mandatory `threshold:` line; a convergence claim without it
 # Rounds Log
 threshold: medium+ — a round is dry only when it confirms zero new medium+ findings; low/info are recorded but never reset the dry counter
 ```
+
+That threshold line is a convergence statement, not a reporting filter. A round with new low/info but zero new medium+ is still dry; the new low/info entries still appear in the ledger and in the round's candidate/new counts.
 
 ### Worked example — round entry
 

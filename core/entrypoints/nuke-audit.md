@@ -34,7 +34,7 @@ A bare `full` always means the mode, never the scope — `nuke-audit full` is a 
 | Round cap | 4 | 8 | 10 |
 | Cost stance | minimum agents that preserve medium+ recall | lean; the convergence loop is the coverage | costs do not matter; never shrink a wave |
 
-**Convergence threshold (all modes): medium+.** A round is dry when it confirms zero new medium+ findings. Low/info are still recorded — `U-###` unverified in micro/light, skeptic-batched in full — but NEVER reset the dry counter. rounds.md names the active threshold every round.
+**Convergence threshold (all modes): medium+.** A round is dry when it confirms zero new medium+ findings. Low/info are still recorded — `U-###` unverified in micro/light, skeptic-batched in full — but NEVER reset the dry counter. The threshold controls convergence only, not what auditors report. Do not tell auditors to report "medium+ only", skip low/info, or omit low/info from the ledger just because the dry counter ignores them. rounds.md names the active threshold every round.
 
 ## Mandates
 
@@ -45,6 +45,7 @@ These override convenience at every step:
 3. **Read-only on the codebase.** Writes happen only under `.nuke/` — the run directory plus the shared `.nuke/repo-map.md` and `.nuke/calibration.log`. Never run `git add`, `git commit`, or `git stash`; never edit source, config, or `.gitignore`. Leave `.nuke/` untracked.
 4. **Fresh run directory.** Never write into an existing audit run. Preflight allocates a new `run_dir` on confirmation; if the computed path already exists, append `-2`, `-3`, … until `mkdir` succeeds. Every artifact of this audit lives only there; pass that exact path in every agent prompt.
 5. **Evidence before existence.** A candidate missing any field of the schema in Phase 2 does not enter the ledger. A convergence claim without the rounds log backing it is false reporting.
+6. **Low/info accounting is mandatory.** Every auditor prompt must ask for schema-complete candidates of all severities. Low/info entries are cheap ledger work, not convergence blockers; record them as confirmed/rejected/unverified according to mode. If a subagent mentions a low/info observation without the full schema, either ask for the missing fields or record in rounds.md that the observation was invalid, not silently dropped.
 
 ## Artifacts
 
@@ -110,7 +111,7 @@ repeat:
   1. compose wave per mode (below). Round 1: agents get context.md + charter.
      Rounds 2+: auditors get the ledger DIGEST only; skeptics get full entries for
      their assigned candidates + the digest (rule in references/ledger-format.md)
-  2. auditors report candidates not already in the ledger — full schema below required
+  2. auditors report candidates of every severity not already in the ledger — full schema below required
   3. skeptic pass per references/skeptic-protocol.md; micro/light: low/info candidates
      get NO skeptic and enter the ledger as U-### unverified
   4. confirmed → F-### · rejected → R-### · unverified low/info → U-###
@@ -128,6 +129,8 @@ until dry == target (micro 1; light/full 2) or round > cap (micro 4; light 8; fu
 4. numbered end-to-end trace proving the claim
 5. proposed fix, imperative, one–three sentences
 6. refutation attempt — the strongest reason this is NOT real; the author who cannot refute it reports it; the author the refutation convinces discards it
+
+**Low/info reporting rule:** never convert "threshold: medium+" into "report medium+ only." Low/info candidates that satisfy the schema enter the ledger in the same merge pass as medium+ candidates. If the user changes the dry target, round cap, or convergence rule mid-run, keep this reporting rule unless they explicitly opt out of low/info recording; if they do opt out, state the limitation in plan.md, rounds.md, report.md, and fix-spec.md counts so the final low/info numbers are not presented as exhaustive.
 
 **Delta scope (rounds 2+, micro/light):** hot charters re-run over the delta only — files cited in the previous round's new findings plus files importing or imported by them — never the whole scope again. Fresh-eyes and miss-hunter agents are never delta-scoped.
 

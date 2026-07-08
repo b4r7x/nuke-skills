@@ -51,6 +51,15 @@ Protocol text names tiers, never model IDs. The mapping to concrete models happe
 | Validators — always one tier above implementers | session | top |
 | Final sweep | session | top |
 
+## nuke-code
+
+| Role | standard | elevated |
+|---|---|---|
+| Ship validator — fresh context, never the authoring context | session | top |
+| Revalidation (per fix cycle) | session | top |
+
+The everyday floor of asymmetric verification: in nuke-code the implementer is the session itself, so "one tier above" would mean `top` on every task. The floor is therefore **equal tier but fresh** — a fresh context satisfies "no agent ever verifies its own work" and removes the author's anchoring — and the ladder engages with risk: any elevated-mode flag (public API, auth/security, concurrency, data migration, new dependency) raises the validator to `top`. The family invariant holds: verification is never cheaper than generation.
+
 ## Declaration mechanics
 
 - **Claude Code:** pass `model` / `effort` per Agent or Workflow `agent()` call. clerk/worker map to the cheapest/mid models available (today haiku/sonnet-class); session = omit the override; top = strongest available at max effort. Pin the tier explicitly in every spawn so the human can see which model ran each role — never rely on implicit inheritance when tiers differ within a wave.

@@ -15,6 +15,8 @@
     "nuke-test":   { "entrypoint": "nuke-test.md",
       "references": ["stack-adapters.md","model-tiers.md","preflight.md"] },
     "nuke-think":  { "entrypoint": "nuke-think.md",
-      "references": [] }
+      "references": [] },
+    "nuke-code":   { "entrypoint": "nuke-code.md",
+      "references": ["constitution.md","lens-catalog.md","stack-adapters.md","model-tiers.md"] }
   }
 }
