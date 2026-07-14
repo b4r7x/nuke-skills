@@ -41,7 +41,7 @@ Amplifiers are conditional: the hints above are likely names, not requirements. 
 
 ## Severity calibration
 
-Severities: `critical | high | medium | low | info`. The convergence threshold is medium+, so miscalibration breaks the loop: an inflated low resets the dry counter for nothing; a deflated medium hides a real defect from the fix loop. When torn between low and medium, write the end-to-end trace first — if the trace shows a consequence, it is medium.
+Severities: `critical | high | medium | low | info`. The convergence threshold is medium+. Skeptics judge claimed severity against this table and recalibrations bind (skeptic-protocol.md), so miscalibration is not free: it burns skeptic judgment and costs the charter its spot-check waiver — and wherever verification is waived or skipped (spot-check rounds, U-### entries), claimed severity stands and distorts convergence directly. Calibrate as if no skeptic will catch it. When torn between low and medium, write the end-to-end trace first — if the trace shows a consequence, it is medium.
 
 | Severity | Bar | Typical examples |
 |---|---|---|

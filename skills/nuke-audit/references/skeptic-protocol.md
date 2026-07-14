@@ -1,6 +1,6 @@
 # Skeptic Protocol
 
-Loaded by the nuke-audit and nuke-review orchestrators before dispatching the first verification pass (audit Phase 2, review Phase 2); embed the refute charter verbatim in every skeptic prompt.
+Loaded by the nuke-audit and nuke-review orchestrators before dispatching the first verification pass (audit Phase 2, review Phase 2); embed the refute charter AND the severity-calibration table from lens-catalog.md verbatim in every skeptic prompt.
 
 ## Refute charter
 
@@ -27,9 +27,12 @@ One block per candidate, returned to the orchestrator for the ledger merge:
 ```
 candidate: <charter>/<n> · <severity> · <file:line>
 verdict: confirm | reject
+severity: confirmed | recalibrated to <critical|high|medium|low|info> — <one line why> | — when rejecting
 question failed: <1–5, or — when confirming>
 reason: <one line>
 ```
+
+**Severity recalibration.** Judging the claimed severity against the calibration bar (severity table in lens-catalog.md — the orchestrator embeds it in every skeptic prompt) is part of question 1: a real defect with an inflated severity is half-wrong. A confirmed candidate enters the ledger at the recalibrated severity, and the dry counter counts recalibrated severities — a skeptic-judged inflated low never resets convergence, and a deflated medium never hides from the fix loop. (Spot-check-waived entries carry claimed severity; the waiver's eligibility bar below is what makes that acceptable.) Recalibration is never a rejection; only questions 1–5 reject.
 
 ## Capping — who verifies what, per round
 
@@ -37,15 +40,17 @@ Skeptics are a verification pass and never count against auditor wave caps. Tier
 
 | Candidates | micro / light | full |
 |---|---|---|
-| medium+ — rounds 1–2 | micro: one batched panel per round · light: one skeptic per charter that produced candidates | one skeptic per critical/high candidate; medium batched ≤5 per skeptic |
-| medium+ — rounds 3+ | single merged panel per round whenever total candidates < 8; otherwise the rounds 1–2 rule | same rule |
+| medium+ | micro: one batched panel per round · light: one skeptic per charter that produced candidates | batched skeptics grouped by file/area locality, ≤5 candidates per skeptic; a batch containing any critical/high is capped at 3 |
+| medium+ — any round with < 8 total | single merged panel for the round | single merged panel for the round |
 | low / info | **no skeptic** — enter the ledger directly as `U-###` unverified | batched skeptics, `session` tier |
+
+Batch by locality: candidates citing the same files share one skeptic, so each file is read once per round — never once per candidate. A batch shares context, never judgments (see Invariants). **Full-mode escalation:** a critical candidate rejected for *uncertainty* — not positively refuted — gets exactly one solo deep-dive skeptic before the verdict is final; the solo verdict stands either way. Never spawn one skeptic per candidate as a default in any mode.
 
 nuke-review: capping does not apply — one batched `session` skeptic verdicts every candidate of every severity, low/info included; review has no U-### path. Wave-2 triggers are defined in the review skill.
 
-Why capping exists: in measured v2 runs, rounds 3–6 dispatched 14 skeptics that rejected 0 of 45 candidates — late-round verification was pure overhead. The merged panel and the spot-check rule reclaim that cost without dropping adversarial review where it pays.
+Why capping exists: in measured v2 runs, rounds 3–6 dispatched 14 skeptics that rejected 0 of 45 candidates — late-round verification was pure overhead. Solo per-candidate skeptics were the same waste in a different place: N candidates in one file meant N agents each reading that file, and the wave size was dictated by auditor-claimed severity — the very thing the skeptic exists to check. Locality batches read each file once and keep the per-candidate verdict; the merged panel and the spot-check rule reclaim the rest without dropping adversarial review where it pays.
 
-Routing: candidates from fresh-eyes and miss-hunter agents go to the skeptic (or panel) owning the charter of their lens.
+Routing: candidates from fresh-eyes and miss-hunter agents go to the panel (micro), the skeptic owning their lens's charter (light), or the locality batch citing the same files (full).
 
 ## Unverified path (micro/light only)
 
@@ -53,7 +58,7 @@ Low/info candidates skip verification and are recorded as `U-###` (format in led
 
 ## Spot-check rule
 
-A charter whose candidates were 100% confirmed in 2 consecutive rounds drops to 1-in-3 verification for the next round: every third candidate gets a skeptic; the rest are confirmed directly with `skeptic: spot-check waived` in their ledger entry. A single rejection during a spot-check round restores full verification for that charter from the next round on.
+A charter whose candidates were 100% confirmed with zero severity recalibrations in 2 consecutive rounds drops to 1-in-3 verification for the next round: every third candidate gets a skeptic; the rest are confirmed directly with `skeptic: spot-check waived` in their ledger entry, at their claimed severity — the waiver is earned by two calibration-clean rounds, which is what makes claimed severity trustworthy enough to bind. A single rejection OR severity recalibration during a spot-check round restores full verification for that charter from the next round on.
 
 ## Invariants — never relaxed
 

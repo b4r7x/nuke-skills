@@ -8,8 +8,8 @@
   "plugins": [
     {
       "name": "nuke",
-      "description": "Multi-agent quality skills — nuke-audit (convergent codebase audit), nuke-review (diff/PR review), nuke-verify (implementation verification with fix loop), nuke-fix (phased fix-spec execution), nuke-spec (feature request → build spec), nuke-debug (root-cause bug fixing), nuke-test (behavior tests proven by mutation), nuke-think (deep-reasoning discipline for judgment roles and hard calls), nuke-code (always-on everyday loop: THINK → BUILD → SHIP with a fresh ship validator) — plus the ambient constitution, injected at session start, that routes ordinary work into the right protocol",
-      "version": "3.1.0",
+      "description": "Multi-agent quality skills — nuke-audit (convergent codebase audit), nuke-review (diff/PR review), nuke-verify (implementation verification with fix loop), nuke-fix (phased fix-spec execution), nuke-spec (feature request → build spec), nuke-debug (root-cause bug fixing), nuke-test (behavior tests proven by mutation), nuke-think (deep-reasoning discipline for judgment roles and hard calls), nuke-code (always-on everyday loop: THINK → BUILD → SHIP with a fresh ship validator), nuke-lean (anti-overengineering charter), nuke-quiet (minimal hand-back discipline) — plus the ambient constitution, injected at session start, that routes ordinary work into the right protocol",
+      "version": "3.2.0",
       "author": {
         "name": "b4r7x"
       },
@@ -26,7 +26,9 @@
         "./skills/nuke-debug",
         "./skills/nuke-test",
         "./skills/nuke-think",
-        "./skills/nuke-code"
+        "./skills/nuke-code",
+        "./skills/nuke-lean",
+        "./skills/nuke-quiet"
       ]
     }
   ]

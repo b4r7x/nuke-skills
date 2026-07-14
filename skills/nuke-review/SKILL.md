@@ -99,7 +99,7 @@ Auditors return candidates to the orchestrator; they do not write findings.md.
 
 ## Phase 2 — Skeptic (session tier)
 
-Read references/skeptic-protocol.md. ONE batched skeptic verdicts every candidate **separately** — batching shares context, never merges judgments. The charter is to refute: real at the cited lines? duplicate of a confirmed OR rejected entry? intentional per project conventions? in scope? does the fix improve or churn? Uncertain after full research → reject with a written reason. Confirmed → `F-###`, rejected → `R-###`, both appended to findings.md with the full schema entry and the verdict reason. Rejected entries are never re-reported or re-judged. Entry and digest formats: references/ledger-format.md.
+Read references/skeptic-protocol.md. ONE batched skeptic verdicts every candidate **separately** — batching shares context, never merges judgments. The charter is to refute: real at the cited lines? duplicate of a confirmed OR rejected entry? intentional per project conventions? in scope? does the fix improve or churn? Uncertain after full research → reject with a written reason. Confirmed → `F-###` at the skeptic's severity (recalibrations bind), rejected → `R-###`, both appended to findings.md with the full schema entry and the verdict reason. Rejected entries are never re-reported or re-judged. Entry and digest formats: references/ledger-format.md.
 
 **Second auditor wave — only on these triggers, never otherwise:**
 

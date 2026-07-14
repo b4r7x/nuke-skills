@@ -17,6 +17,10 @@
     "nuke-think":  { "entrypoint": "nuke-think.md",
       "references": [] },
     "nuke-code":   { "entrypoint": "nuke-code.md",
-      "references": ["constitution.md","lens-catalog.md","stack-adapters.md","model-tiers.md"] }
+      "references": ["constitution.md","lens-catalog.md","stack-adapters.md","model-tiers.md"] },
+    "nuke-lean":   { "entrypoint": "nuke-lean.md",
+      "references": [] },
+    "nuke-quiet":  { "entrypoint": "nuke-quiet.md",
+      "references": [] }
   }
 }

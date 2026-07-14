@@ -114,7 +114,8 @@ repeat:
   2. auditors report candidates of every severity not already in the ledger — full schema below required
   3. skeptic pass per references/skeptic-protocol.md; micro/light: low/info candidates
      get NO skeptic and enter the ledger as U-### unverified
-  4. confirmed → F-### · rejected → R-### · unverified low/info → U-###
+  4. confirmed → F-### at the skeptic's severity (recalibrations bind — for the ledger
+     AND the dry counter) · rejected → R-### · unverified low/info → U-###
   5. log the round in rounds.md, threshold named
   6. dry = (new medium+ confirmed == 0) ? dry + 1 : 0    # low/info never reset dry
   7. apply mode rules: charter retirement (micro) · half-wave (light) · delta scope

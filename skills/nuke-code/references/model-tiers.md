@@ -65,6 +65,7 @@ The everyday floor of asymmetric verification: in nuke-code the implementer is t
 - **Claude Code:** pass `model` / `effort` per Agent or Workflow `agent()` call. clerk/worker map to the cheapest/mid models available (today haiku/sonnet-class); session = omit the override; top = strongest available at max effort. Pin the tier explicitly in every spawn so the human can see which model ran each role — never rely on implicit inheritance when tiers differ within a wave.
 - **Codex / other CLIs:** map tiers to their model flags the same way.
 - **No per-agent override support:** every role inherits the session model (v2 behavior). The protocols still work — they just cost more.
+- **Ceiling collapse — the strongest available model IS the session model** (a top-tier model is down, rate-limited, or not offered): `top` and `session` resolve to the same model and the tier ladder flattens. The invariant degrades to the nuke-code floor: **equal tier but fresh, maximum effort/thinking dials, nuke-think loaded for every judgment role**. A fresh context still satisfies "no agent verifies its own work"; the protocol carries what the tier gap no longer can. State the collapse in the preflight plan block so the user knows which rungs flattened; nuke-code, which has no preflight, marks it in the hand-back instead (e.g. `validator: session (top unavailable)`).
 - Never silently upgrade or downgrade a role's tier. A tier change is a plan change and belongs in the preflight plan block, confirmed by the user.
 
 ## Asymmetric verification

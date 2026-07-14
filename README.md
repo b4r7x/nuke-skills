@@ -1,6 +1,6 @@
 # nuke-skills
 
-Nine agent skills and one always-on constitution. Seven skills spec, audit, review, verify, fix, debug, and test codebases using waves of subagents; the eighth raises the reasoning quality of whichever model runs the others; the ninth — nuke-code — plus the constitution turn the same discipline inward: the everyday loop the session runs for its own changes, so ordinary work arrives already reviewed. The design bet: a cheap model following a strict protocol — embedded checklists, a forced finding schema, skeptic passes, validators one tier above implementers — beats an expensive model working from intuition. The protocol carries the quality; the model mostly has to follow instructions.
+Eleven agent skills and one always-on constitution. Seven skills spec, audit, review, verify, fix, debug, and test codebases using waves of subagents; nuke-think raises the reasoning quality of whichever model runs the others; nuke-code plus the constitution turn the same discipline inward: the everyday loop the session runs for its own changes, so ordinary work arrives already reviewed; nuke-lean and nuke-quiet are opt-in charters that strip overengineering from the code and chatter from the hand-back. The design bet: a cheap model following a strict protocol — embedded checklists, a forced finding schema, skeptic passes, validators one tier above implementers — beats an expensive model working from intuition. The protocol carries the quality; the model mostly has to follow instructions.
 
 ## Install
 
@@ -14,7 +14,7 @@ Claude Code can also take the repo as a plugin marketplace: `/plugin marketplace
 
 The plugin also installs the constitution: a SessionStart hook injects it into every session automatically — nothing to edit. On every other harness, install it once, globally (see [Install the constitution](#install-the-constitution)).
 
-## The nine skills
+## The eleven skills
 
 | Skill | What it does | Writes code? | Typical trigger |
 |---|---|---|---|
@@ -27,6 +27,8 @@ The plugin also installs the constitution: a SessionStart hook injects it into e
 | nuke-test | Maps behaviors from the public interface, writes tests, then proves them by mutating the source and watching them fail. | yes | "nuke test", "cover this with tests" |
 | nuke-think | Maxes the platform's thinking dials and runs a six-step reasoning discipline; a stance-assigned panel for the hardest calls. | no | "nuke think", auto-loaded by judgment roles |
 | nuke-code | The everyday loop below the ceremonies: THINK (done-criteria, ≥2 solution shapes) → BUILD (house-idiom charter) → SHIP (fresh validator + gates) for the session's own changes. | yes | engaged automatically by the constitution; "nuke code" forces it |
+| nuke-lean | Anti-overengineering charter: validation at trust boundaries only, no speculative abstraction, minimal diff, a self-sweep of the model's own additions before hand-back. | no — shapes how code gets written | "no overengineering", "keep it simple", "straight forward"; loadable by implementer roles |
+| nuke-quiet | Communication discipline: a fixed hand-back contract (verdict · files · assumptions · failures), silence in between; failures and dropped scope still get their line each. | no | "no talk", "quiet", "just do it" |
 
 Every reported finding must carry file:line references, at least one verbatim quoted line per site, a numbered trace proving the claim, and a refutation attempt: the auditor writes the strongest case that the finding is not real, and reports it only when that case fails to convince them. A finding missing any field is discarded, not reported. This schema is most of why cheap auditors stay precise.
 

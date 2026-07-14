@@ -29,6 +29,8 @@ Fix: extract a single retry helper; reuse at both sites.
 round: 1 · skeptic: confirmed (drift is real, not intentional)
 ```
 
+The `skeptic:` field also records severity recalibrations: `skeptic: confirmed — recalibrated high→medium (bounded blast radius)`. The entry's severity slot always carries the final, post-skeptic severity; the claimed severity survives only in the skeptic field.
+
 ### Worked example — rejected entry
 
 ```markdown
